@@ -1,0 +1,42 @@
+{% extends 'djangoapp/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Register</h1>
+
+  {% if error %}
+    <p class="text-danger">{{ error }}</p>
+  {% endif %}
+
+  <form method="post" action="/djangoapp/register">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label>User Name</label>
+      <input class="form-control" type="text" name="username" required>
+    </div>
+
+    <div class="mb-3">
+      <label>First Name</label>
+      <input class="form-control" type="text" name="firstName">
+    </div>
+
+    <div class="mb-3">
+      <label>Last Name</label>
+      <input class="form-control" type="text" name="lastName">
+    </div>
+
+    <div class="mb-3">
+      <label>Email</label>
+      <input class="form-control" type="email" name="email">
+    </div>
+
+    <div class="mb-3">
+      <label>Password</label>
+      <input class="form-control" type="password" name="password" value="password123" required>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Register</button>
+  </form>
+</div>
+{% endblock %}

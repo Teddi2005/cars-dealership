@@ -1,0 +1,62 @@
+{% extends 'djangoapp/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Post Review for {{ dealer.full_name }}</h1>
+  <p><strong>Dealer ID:</strong> {{ dealer.id }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label>Name</label>
+      <input class="form-control" type="text" name="name" value="{% if user.is_authenticated %}{{ user.username }}{% else %}Guest{% endif %}">
+    </div>
+
+    <div class="mb-3">
+      <label>Purchase Date</label>
+      <input class="form-control" type="date" name="purchase_date" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Car Make</label>
+      <select class="form-control" name="car_make" required>
+        {% for make in makes %}
+          <option value="{{ make.make }}">{{ make.make }}</option>
+        {% empty %}
+          <option value="Toyota">Toyota</option>
+          <option value="Honda">Honda</option>
+          <option value="Ford">Ford</option>
+          <option value="BMW">BMW</option>
+          <option value="Audi">Audi</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Car Model</label>
+      <input class="form-control" type="text" name="car_model" value="Camry" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Car Year</label>
+      <input class="form-control" type="number" name="car_year" value="2024" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Purchase</label>
+      <select class="form-control" name="purchase">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Review</label>
+      <textarea class="form-control" name="review" rows="4" required>Excellent service</textarea>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit Review</button>
+  </form>
+</div>
+{% endblock %}

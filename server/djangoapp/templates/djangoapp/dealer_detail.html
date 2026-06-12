@@ -1,0 +1,45 @@
+{% extends 'djangoapp/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Dealer Details</h1>
+
+  <div class="card p-3 mb-4">
+    <h2>{{ dealer.full_name }}</h2>
+    <p><strong>Dealer ID:</strong> {{ dealer.id }}</p>
+    <p><strong>Short name:</strong> {{ dealer.short_name }}</p>
+    <p><strong>Address:</strong> {{ dealer.address }}, {{ dealer.city }}, {{ dealer.state }} {{ dealer.zip }}</p>
+    <p><strong>Latitude:</strong> {{ dealer.lat }} | <strong>Longitude:</strong> {{ dealer.long }}</p>
+
+    {% if user.is_authenticated %}
+      <a class="btn btn-success" href="/djangoapp/review/{{ dealer.id }}">Review Dealer</a>
+    {% else %}
+      <a class="btn btn-primary" href="/djangoapp/login">Login to add a review</a>
+    {% endif %}
+  </div>
+
+  <h2>Reviews for Dealer ID {{ dealer.id }}</h2>
+
+  {% for r in reviews %}
+    <div class="card p-3 mb-3">
+      <h3>{{ r.name }}</h3>
+      <p><strong>Car:</strong> {{ r.car_year }} {{ r.car_make }} {{ r.car_model }}</p>
+      <p><strong>Purchase:</strong> {{ r.purchase }}</p>
+      <p>{{ r.review }}</p>
+
+      <p>
+        <strong>Sentiment:</strong> {{ r.sentiment }}
+        {% if r.sentiment == "positive" %}
+          <img class="sentiment-img" src="/static/sentiment-positive.svg" alt="positive sentiment image">
+        {% elif r.sentiment == "negative" %}
+          <img class="sentiment-img" src="/static/sentiment-negative.svg" alt="negative sentiment image">
+        {% else %}
+          <img class="sentiment-img" src="/static/sentiment-neutral.svg" alt="neutral sentiment image">
+        {% endif %}
+      </p>
+    </div>
+  {% empty %}
+    <p>No reviews yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}
